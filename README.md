@@ -1,1 +1,1 @@
-# python-mysql-db-proj-1
+# demo_python_app
