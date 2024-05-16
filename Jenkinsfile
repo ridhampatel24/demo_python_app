@@ -14,7 +14,7 @@ pipeline {
                 script {
                     def commands = """
                         cd /home/ubuntu/demo_python_app
-                        pkill -f app.py
+                        sudo pkill -f app.py
                         cd ~
                         sudo rm -rf demo_python_app
                         git clone https://github.com/ridhampatel24/demo_python_app.git
