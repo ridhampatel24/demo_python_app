@@ -17,7 +17,9 @@ pipeline {
                         ls
                         whoami
                         cd /home/ubuntu/demo_python_app
+                        pwd
                         sudo pkill -f app.py
+                        ls
                         cd ~
                         sudo rm -rf demo_python_app
                         git clone https://github.com/ridhampatel24/demo_python_app.git
