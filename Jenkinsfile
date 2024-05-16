@@ -18,7 +18,7 @@ pipeline {
                         whoami
                         cd /home/ubuntu/demo_python_app
                         pwd
-                        sudo pkill -f app.py
+                        sudo netstat -tulnp | grep :5000
                         ls
                         cd ~
                         sudo rm -rf demo_python_app
@@ -35,25 +35,25 @@ pipeline {
             }
         }
 
-        stage('Install Python app') {
-            steps {
-                script {
-                    def commands = """
-                        ls
-                        cd ~
-                        sudo rm -rf demo_python_app
-                        git clone https://github.com/ridhampatel24/demo_python_app.git
-                        cd /home/ubuntu/demo_python_app
-                        pip3 install -r requirements.txt --break-system-packages
-                        setsid python3 -u app.py && sleep 5
-                    """
+        // stage('Install Python app') {
+        //     steps {
+        //         script {
+        //             def commands = """
+        //                 ls
+        //                 cd ~
+        //                 sudo rm -rf demo_python_app
+        //                 git clone https://github.com/ridhampatel24/demo_python_app.git
+        //                 cd /home/ubuntu/demo_python_app
+        //                 pip3 install -r requirements.txt --break-system-packages
+        //                 setsid python3 -u app.py && sleep 5
+        //             """
                     
-                    sshagent(['ec2-python']) {
-                        sh "ssh -o StrictHostKeyChecking=no -i ${PRIVATE_KEY} ${EC2_USER}@${EC2_HOST} '${commands}'"
-                    }
-                }
-            }
-        }
+        //             sshagent(['ec2-python']) {
+        //                 sh "ssh -o StrictHostKeyChecking=no -i ${PRIVATE_KEY} ${EC2_USER}@${EC2_HOST} '${commands}'"
+        //             }
+        //         }
+        //     }
+        // }
 
     }
 }
