@@ -35,7 +35,7 @@ pipeline {
             }
         }
 
-        stage('Run Docker Image on AWS EC2') {
+        stage('Install Python app') {
             steps {
                 script {
                     def commands = """
