@@ -19,9 +19,9 @@ pipeline {
 
         stage('Install Python Requirements') {
             steps {
-               script {
-                   pip3 install -r requirements.txt --break-system-packages
-                }
+               
+                sh 'pip3 install -r requirements.txt --break-system-packages'
+                
             }
         }
 
