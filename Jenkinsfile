@@ -13,6 +13,9 @@ pipeline {
             steps {
                 script {
                     def commands = """
+                        pwd
+                        ls
+                        whoami
                         cd /home/ubuntu/demo_python_app
                         sudo pkill -f app.py
                         cd ~
