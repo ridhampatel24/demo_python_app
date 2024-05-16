@@ -21,7 +21,7 @@ pipeline {
                         cd /home/ubuntu/demo_python_app
                         pip3 install -r requirements.txt --break-system-packages
                         pwd
-                        sudo nohup python app1c.py > log.txt 2>&1 &
+                        sudo nohup python3 -u app.py > log.txt 2>&1 &
                         pwd
                         sleep 5
                     """
