@@ -9,41 +9,26 @@ pipeline {
 
     stages {
 
-        stage('Checkout') {
+        stage('Run Docker Image on AWS EC2') {
             steps {
                 script {
-                    git branch: 'main', url: 'https://github.com/ridhampatel24/demo_python_app.git'//, credentialsId: 'github-id' 
+                    def commands = """
+                        cd /home/ubuntu/demo_python_app
+                        pkill -f app.py
+                        cd ~
+                        sudo rm -rf demo_python_app
+                        git clone https://github.com/ridhampatel24/demo_python_app.git
+                        cd /home/ubuntu/demo_python_app
+                        pip3 install -r requirements.txt --break-system-packages
+                        setsid python3 -u app.py && sleep 5
+                    """
+                    
+                    sshagent(['ec2-python']) {
+                        sh "ssh -o StrictHostKeyChecking=no -i ${PRIVATE_KEY} ${EC2_USER}@${EC2_HOST} '${commands}'"
+                    }
                 }
             }
         }
 
-        stage('Install Python Requirements') {
-            steps {
-               
-                sh 'pip3 install -r requirements.txt --break-system-packages'
-                
-            }
-        }
-
-        // stage('Transfer Frotend to EC2') {
-        //     steps {
-        //         script {
-        //             sh "rsync -avrx -e 'ssh -i ${PRIVATE_KEY} -o StrictHostKeyChecking=no' --delete /var/lib/jenkins/workspace/ridham-ec2.prod/public/build/ ${EC2_USER}@${EC2_HOST}:/var/www/html/chatapp"                  
-        //         }
-        //     }
-        // }
-
-        // stage('Read IP Address') {
-        //     steps {
-        //         script {
-        //             // Print the IP address to the console
-        //             echo "IP Address: ${ipAddress}"
-        //             //echo "${EC2_HOST}"
-                    
-        //             // Optionally, set it as an environment variable if needed later
-        //             env.TARGET_IP = ipAddress
-        //         }
-        //     }
-        // }
     }
 }
